@@ -1,0 +1,74 @@
+html,
+body {
+  background: #e1dcce;
+  color: #464138;
+  font-family: "Grifinito L";
+  margin: 0;
+  padding: 0;
+}
+
+.smooth-scroller {
+  overflow: hidden;
+}
+
+.hero-scroller {
+  height: 250vh;
+  overflow: hidden;
+}
+
+.section {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  padding: 50px;
+  justify-content: center;
+}
+
+.copy {
+  background: #d4cfc0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-wrapper {
+  max-width: 1400px;
+}
+
+.content {
+  width: 100%;
+  max-width: 840px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+h1 {
+  font-size: 180px;
+  font-weight: 400;
+  line-height: 150px;
+  margin: 0px;
+  text-transform: uppercase;
+}
+
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 50%;
+}
+
+.image {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+p {
+  font-size: 4em;
+  line-height: 1.2em;
+}

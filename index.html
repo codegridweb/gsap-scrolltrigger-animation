@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scroll trigger animation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="smooth-scroll">
+      <div class="hero-scroller">
+        <div class="section">
+          <div class="section-wrapper">
+            <div class="content">
+              <h1 class="hero-header h-1">the great</h1>
+              <h1 class="hero-header h-2">outdoors</h1>
+              <h1 class="hero-header h-3">volume</h1>
+            </div>
+            <div class="pin-wrapper">
+              <div class="image-wrapper" id="heroImage">
+                <img
+                  class="image"
+                  src="https://images.unsplash.com/photo-1653919450772-489831a08403?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section copy">
+        <div class="section-wrapper">
+          <div class="content">
+            <p>
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when looking at its layout. The
+              point of using Lorem Ipsum is that it has a more-or-less normal
+              distribution of letters, as opposed to using 'Content here,
+              content here', making it look like readable English.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      const locoScroll = new LocomotiveScroll({
+        el: document.querySelector(".smooth-scroll"),
+        smooth: true,
+        lerp: 0.08,
+      });
+
+      locoScroll.on("scroll", ScrollTrigger.update);
+
+      ScrollTrigger.scrollerProxy(".smooth-scroll", {
+        scrollTop(value) {
+          return arguments.length
+            ? locoScroll.scrollTo(value, 0, 0)
+            : locoScroll.scroll.instance.scroll.y;
+        },
+        getBoundingClientRect() {
+          return {
+            top: 0,
+            left: 0,
+            width: window.innerWidth,
+            height: window.innerHeight,
+          };
+        },
+        pinType: document.querySelector(".smooth-scroll").style.transform
+          ? "transform"
+          : "fixed",
+      });
+
+      const vw = (coef) => window.innerWidth * (coef / 100);
+      const vh = (coef) => window.innerHeight * (coef / 100);
+
+      const heroScroller = gsap.timeline({
+        paused: true,
+        scrollTrigger: {
+          trigger: ".hero-header.h-1",
+          scroller: ".smooth-scroll",
+          pin: ".pin-wrapper",
+          start: "top 10%",
+          scrub: true,
+          end: `${vh(100)}`,
+        },
+      });
+
+      heroScroller
+        .to(
+          [".hero-header.h-1", ".hero-header.h-3"],
+          {
+            scale: 2,
+            y: vh(150),
+            xPercent: -150,
+          },
+          "heroScroll"
+        )
+        .to(
+          ".hero-header.h-2",
+          {
+            scale: 2,
+            y: vh(150),
+            xPercent: 150,
+          },
+          "heroScroll"
+        )
+        .to(
+          "#heroImage",
+          {
+            scaleY: 2.5,
+          },
+          "heroScroll"
+        )
+        .to(
+          "#heroImage .image",
+          {
+            scaleX: 2.5,
+            xPercent: 50,
+          },
+          "heroScroll"
+        );
+
+      ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+      ScrollTrigger.refresh();
+    </script>
+  </body>
+</html>
